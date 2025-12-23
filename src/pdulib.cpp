@@ -1047,13 +1047,19 @@ int PDU::decodeAddress(const char *pdu, char *output, eLengthType et)
         addressLength++;            // we could do NOT this before calling pduGsm7_to_unicode
       break;
     default:
-      addressLength = 0;
+      // Unknown TON type - don't decode but still need to skip over the address bytes
+      *output = 0;  // empty output string
+      if ((addressLength & 1) == 1) // if odd, bump 1
+        addressLength++;
       break;
     }
   }
   else
   {
-    addressLength = 0; // dont know how to handle EXT
+    // Unknown EXT format - don't decode but still need to skip over the address bytes
+    *output = 0;  // empty output string
+    if ((addressLength & 1) == 1) // if odd, bump 1
+      addressLength++;
   }
   return addressLength;
 }
