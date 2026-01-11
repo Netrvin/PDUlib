@@ -1036,6 +1036,7 @@ int PDU::decodeAddress(const char *pdu, char *output, eLengthType et)
     case 2: // national number
     //  [[fallthrough]];
     case 3: // network specific number, Issue #26
+    case 4: // subscriber number
     case 6: // abbreviated number, Issue #41
       BCDtoString(output, pdu, addressLength);
       if ((addressLength & 1) == 1) // if odd, bump 1
